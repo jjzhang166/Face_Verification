@@ -4,13 +4,12 @@ Using deep learning model as feature extractor and joint-bayesian as classifier,
 * OpenCV
 * dlib
 * Caffe
-
+# Usage
 ```
 cmake .
 make
 ```
 
-# Usage
 
 
 
