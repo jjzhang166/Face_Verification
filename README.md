@@ -20,7 +20,7 @@ const int SIZE = 4096; // feature vector's size from target layer
 const int threshold = 50; // ratio threshold from joint bayesian
 const char* layer_name = "fc7"; // target layer name
 ```
-At the beginning, press enter to see the detected face, press space to choose the shown image to be ground truth 
+At the beginning, press enter to see the detected face and press space to choose the shown image to be ground truth.
 
 
 
