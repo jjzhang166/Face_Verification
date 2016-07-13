@@ -1,1 +1,1 @@
-  
+Result from Joint-Bayesian  
