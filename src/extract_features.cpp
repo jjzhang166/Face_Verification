@@ -92,7 +92,7 @@ void Classifier::SetMean(const string& mean_file) {
 	mean_ = cv::Mat(input_geometry_, mean.type(), cv::Scalar(104,117,123));
 }
 
-const float* Classifier::Classify(const cv::Mat& img) {
+const float* Classifier::Classify(const cv::Mat& img, const char* layer_name) {
 	Blob<float>* input_layer = net_->input_blobs()[0];
 	input_layer->Reshape(1, num_channels_,
 			input_geometry_.height, input_geometry_.width);
@@ -108,7 +108,7 @@ const float* Classifier::Classify(const cv::Mat& img) {
 
 	// Feature extraction-------------------------------
 	const boost::shared_ptr<Blob<float> > feature_blob =
-		net_->blob_by_name("fc7");
+		net_->blob_by_name(layer_name);
 	const float* feature_blob_data;
 	feature_blob_data = feature_blob->cpu_data();
 	/*for (int d=0; d<4096; d++){

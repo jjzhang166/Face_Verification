@@ -104,7 +104,7 @@ int CFaceProcessing::FaceDetection(const cv::Mat colorImg)
    m_grayImg = cv::Mat(yCbCrImg.size(), CV_8UC1);
    int fromTo[] = { 0, 0 };
    cv::mixChannels(&yCbCrImg, 1, &m_grayImg, 1, &fromTo[0], 1);
-   /*
+   
    // segmentation for skin color
    cv::Mat skinBinImg;
    cv::inRange(yCbCrImg, cv::Scalar(0, 85, 135), cv::Scalar(255, 135, 180), skinBinImg);
@@ -117,16 +117,16 @@ int CFaceProcessing::FaceDetection(const cv::Mat colorImg)
    //cv::imshow("dilate", skinBinImg);
    // apply GaussianBlur to have a complete segmentation
    cv::GaussianBlur(skinBinImg, skinBinImg, cv::Size(0, 0), 3.0);
-   cv::imshow("blur", skinBinImg);
+   //cv::imshow("blur", skinBinImg);
    // -----------------------------------------------
    // face detection with OpenCV on skin-color region
    // -----------------------------------------------
    cv::Mat skinSegImg;
    cv::Mat skinSegGrayImg(skinSegImg.size(), CV_8UC1);
    m_grayImg.copyTo(skinSegGrayImg, skinBinImg); 
-   cv::imshow("final", skinSegGrayImg);
-   cv::waitKey();*/       
-   m_faceCascade.detectMultiScale(m_grayImg, m_faces, 1.2, 3, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(20, 20));
+   //cv::imshow("final", skinSegGrayImg);
+   //cv::waitKey();      
+   m_faceCascade.detectMultiScale(skinSegGrayImg, m_faces, 1.2, 3, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(20, 20));
 
    // eye detection
    EyeDetection();

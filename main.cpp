@@ -67,6 +67,7 @@ int main(int argc, const char** argv)
 	Py_Initialize();
 	const int SIZE = 4096;
 	const int threshold = 50;
+	const char* layer_name = "fc7";
 	CJointBayesian jointbayesian(SIZE, threshold);
 
 
@@ -166,7 +167,7 @@ int main(int argc, const char** argv)
 					cv::imshow("rrr", croppedImgs[i]);
 					char key = (char)cv::waitKey(); 
 					if (key==32){    
-						const float* temp = classifier.Classify(croppedImgs[i]);  
+						const float* temp = classifier.Classify(croppedImgs[i], layer_name);  
 						for (int d=0; d<SIZE; d++){
 							testp[d] = temp[d];
 						}
@@ -176,9 +177,10 @@ int main(int argc, const char** argv)
 				else if(testperson){
 					// Face Verify
 					const float* features;   
-					features = classifier.Classify(croppedImgs[i]);
+					features = classifier.Classify(croppedImgs[i], layer_name);
 					bool result = jointbayesian.Verify(const_cast<float*>(features), testp);                   
 					result ? printf("Same\n") : printf("Different\n");
+					cv::rectangle(img, faces[i], CV_RGB(0, 0, 255), 2);
 					cv::imshow("Verify", croppedImgs[i]);
 					cv::waitKey(1);
 				}

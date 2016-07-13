@@ -23,7 +23,7 @@ class Classifier {
              const string& mean_file,
              const string& label_file);
 
-  const float* Classify(const cv::Mat& img);
+  const float* Classify(const cv::Mat& img, const char* layer_name);
 
  private:
   void SetMean(const string& mean_file);
