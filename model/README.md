@@ -1,8 +1,8 @@
-deploy_gender.prototxt
+VGG_FACE_deploy.prototxt
 
-gender_net.caffemodel
+VGG_FACE.caffemodel
 
-labels.txt
+names.txt
 
 mean.binaryproto
 
