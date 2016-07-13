@@ -80,7 +80,7 @@ bool CJointBayesian::Verify(float* person1, float* person2)
 		Py_DECREF(pReturn);
 	}
 
-	return ratio < m_threshold;
+	return ratio > m_threshold;
 }
 
 CJointBayesian::~CJointBayesian()

@@ -34,7 +34,7 @@ class JointBayesian:
         data  = self.scaler.transform(data)
         data = self.pca.transform(data)
         print data.shape
-        ratio = abs(self.Verify(data[0], data[1]))
+        ratio = self.Verify(data[0], data[1])
         print ratio
         return ratio
     

@@ -36,11 +36,11 @@ int main(int argc, const char** argv)
 	printf("Setting GPU...\n");
 
 	/*if (argc != 5) {
-		std::cerr << "Usage: " << argv[0]
-			<< " deploy.prototxt network.caffemodel"
-			<< " mean.binaryproto labels.txt " << std::endl;
-		return 1;
-	}*/
+	  std::cerr << "Usage: " << argv[0]
+	  << " deploy.prototxt network.caffemodel"
+	  << " mean.binaryproto labels.txt " << std::endl;
+	  return 1;
+	  }*/
 	::google::InitGoogleLogging(argv[0]);
 	string model_file   = "model/VGG_FACE_deploy.prototxt";
 	string trained_file = "model/VGG_FACE.caffemodel";
@@ -58,18 +58,18 @@ int main(int argc, const char** argv)
 	  "D:/Vision_Project/shape_predictor_68_face_landmarks.dat");*/
 
 	//[20160104_Sylar]
-	CFaceProcessing fp("/home/sylar/gender_classification/xml/lbpcascade_frontalface.xml",
-			"/home/sylar/gender_classification/xml/haarcascade_mcs_nose.xml",
-			"/home/sylar/gender_classification/xml/haarcascade_mcs_mouth.xml",
-			"/home/sylar/gender_classification/xml/shape_predictor_68_face_landmarks.dat");
+	CFaceProcessing fp("xml/lbpcascade_frontalface.xml",
+			"xml/haarcascade_mcs_nose.xml",
+			"xml/haarcascade_mcs_mouth.xml",
+			"xml/shape_predictor_68_face_landmarks.dat");
 
 	// Joint Bayesian
 	Py_Initialize();
 	const int SIZE = 4096;
 	const int threshold = 50;
 	CJointBayesian jointbayesian(SIZE, threshold);
-	
-	
+
+
 	// main loop
 	bool testperson = false;
 	float* testp = new float[SIZE];
@@ -150,6 +150,8 @@ int main(int argc, const char** argv)
 				if(h + y > originImg.rows)
 					h = originImg.rows - y ;
 				croppedImgs[i] = originImg(cv::Rect(x, y, w, h)).clone();
+			}
+		}
 
 		// --------------------------------------------
 		// do gender classification and display results
@@ -159,25 +161,24 @@ int main(int argc, const char** argv)
 		{
 			if (status[i])
 			{   
-                // Test person
+				// Test person
 				if (!testperson){          
 					cv::imshow("rrr", croppedImgs[i]);
-				    char key = (char)cv::waitKey(); 
-				    if (key==32){    
-				        const float* temp = classifier.Classify(croppedImgs[i]);  
-					    for (int d=0; d<SIZE; d++){
-					        testp[d] = temp[d];
-					    }
-					    testperson = true;
-				    }    
+					char key = (char)cv::waitKey(); 
+					if (key==32){    
+						const float* temp = classifier.Classify(croppedImgs[i]);  
+						for (int d=0; d<SIZE; d++){
+							testp[d] = temp[d];
+						}
+						testperson = true;
+					}    
 				}
 				else if(testperson){
 					// Face Verify
-	                const float* features;   
+					const float* features;   
 					features = classifier.Classify(croppedImgs[i]);
 					bool result = jointbayesian.Verify(const_cast<float*>(features), testp);                   
 					result ? printf("Same\n") : printf("Different\n");
-					std::cout<<accum<<std::endl;
 					cv::imshow("Verify", croppedImgs[i]);
 					cv::waitKey(1);
 				}
@@ -229,5 +230,6 @@ int main(int argc, const char** argv)
 	//
 	return 0;
 }
+
 
 
