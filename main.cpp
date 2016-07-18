@@ -66,7 +66,7 @@ int main(int argc, const char** argv)
 	// Joint Bayesian
 	Py_Initialize();
 	const int SIZE = 4096;
-	const int threshold = 50;
+	const int threshold = 0;
 	const char* layer_name = "fc7";
 	CJointBayesian jointbayesian(SIZE, threshold);
 
@@ -95,7 +95,7 @@ int main(int argc, const char** argv)
 		//openNiWrapper.ConvertDepthColorRawToImage(cv::Mat(), img);
 		cap >> img;
 		if (img.empty()) break;
-		cv::resize(img, img, cv::Size(1280, 720));
+		//cv::resize(img, img, cv::Size(1280, 720));
 		// (optional) backup original image for offline debug
 		cv::Mat originImg(img.size(), img.type());
 		img.copyTo(originImg);
@@ -179,8 +179,9 @@ int main(int argc, const char** argv)
 					const float* features;   
 					features = classifier.Classify(croppedImgs[i], layer_name);
 					bool result = jointbayesian.Verify(const_cast<float*>(features), testp);                   
-					result ? printf("Same\n") : printf("Different\n");
+					const char* r = result ? "Same" : "Different";
 					cv::rectangle(img, faces[i], CV_RGB(0, 0, 255), 2);
+					cv::putText(croppedImgs[i], r, cv::Point(30, 30), cv::FONT_HERSHEY_COMPLEX, 1, CV_RGB(255, 255, 255));  
 					cv::imshow("Verify", croppedImgs[i]);
 					cv::waitKey(1);
 				}
@@ -199,7 +200,7 @@ int main(int argc, const char** argv)
 		cv::imshow("Result", img);
 		//if (faceNum > 0) key = cv::waitKey();
 		//else key = cv::waitKey(1);
-		char key = (char)cv::waitKey(10);
+		char key = (char)cv::waitKey(5);
 
 		if (key == 27) break;
 		else if (key == 83 || key == 115)
